@@ -130,18 +130,24 @@ Planned datasets include:
 ```
 wow-mythic-data-pipeline
 │
-├── bronze/
-│   ├── raiderio_api_pull.py
-│   └── raw_run_data.json
-│
-├── silver/
-│   └── mplus_silver_layer.ipynb
-│
-├── gold/
-│   └── (planned)
+├── ingestion/
+│   └── Python scripts used to pull data from the Raider.IO API
 │
 ├── data/
-│   └── raw_api_json
+│   └── Raw JSON files retrieved from the API
+│
+├── bronze/
+│   └── Initial ingestion and raw storage of data
+│
+├── silver/
+│   └── Data cleaning and transformation notebooks
+│
+├── gold/
+│   └── (planned) Analytics-ready datasets and aggregations
+│
+├── mplus_datapipeline_logo.PNG
+│
+├── .gitignore
 │
 └── README.md
 ```
