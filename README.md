@@ -1,8 +1,6 @@
-# wow-mythic-data-pipeline
+# WoW Mythic+ Data Pipeline
 
 <img src="https://github.com/berryForge/wow-mythic-data-pipeline/blob/main/mplus_datapipeline_logo.PNG" style="width:50%;" alt="Mythic+ Data Pipeline">
-
-# WoW Mythic+ Data Pipeline
 
 This project is a **personal data engineering learning project** focused on building a complete data pipeline from raw ingestion to analytics-ready datasets.
 
