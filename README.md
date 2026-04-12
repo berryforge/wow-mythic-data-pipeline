@@ -188,31 +188,34 @@ A separate notebook is used to analyze the Gold data and prepare datasets for vi
 ---
 
 ## Repository Structure
+```
 wow-mythic-data-pipeline/
 │
 ├── ingestion/
-│ └── raiderio_api_ingest.py
+│   └── raiderio_api_ingest.py
 │
 ├── bronze/
-│ └── bronze_layer_ingestion.ipynb
+│   └── bronze_layer_ingestion.ipynb
 │
 ├── silver/
-│ └── silver_layer_transformation.ipynb
+│   └── silver_layer_transformation.ipynb
 │
 ├── gold/
-│ └── gold_layer_modeling.ipynb
+│   └── gold_layer_modeling.ipynb
 │
 ├── analysis/
-│ └── mythic_plus_visualizations.ipynb
+│   └── mythic_plus_visualizations.ipynb
 │
 ├── data/
-│ └── sample_json/
+│   └── sample_json/
 │
 ├── docs/
-│ └── (screenshots, diagrams)
+│   └── (screenshots, diagrams)
 │
 ├── README.md
 └── .gitignore
+```
+
 
 
 ---
