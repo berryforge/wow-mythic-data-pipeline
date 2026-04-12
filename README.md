@@ -2,181 +2,203 @@
 
 <img src="https://github.com/berryForge/wow-mythic-data-pipeline/blob/main/mplus_datapipeline_logo.PNG" style="width:50%;" alt="Mythic+ Data Pipeline">
 
-This project is a **personal data engineering learning project** focused on building a complete data pipeline from raw ingestion to analytics-ready datasets.
+## Overview
 
-The goal of this project is to learn and practice the **full lifecycle of a modern data pipeline**, including:
+This project is a **personal data engineering portfolio project** focused on building a complete data pipeline using real-world data.
 
-- Ingesting data from an external API
-- Working with nested JSON data
-- Cleaning and transforming raw data
-- Structuring datasets for analytics
-- Organizing data using **Medallion Architecture (Bronze → Silver → Gold)**
-- Using Git to version control data engineering work
+The pipeline ingests **World of Warcraft Mythic+ dungeon data** from the Raider.IO API and processes it through a **Medallion Architecture (Bronze → Silver → Gold)** using PySpark in Databricks.
 
-The topic of **World of Warcraft Mythic+ dungeon data** was chosen simply to make the learning process more engaging while working with real-world style data.
-
-This repository will continue to evolve as I experiment with transformations, improve the data model, and expand the pipeline.
+The goal of this project is to demonstrate the **end-to-end lifecycle of a modern data pipeline**, from raw ingestion to analytics-ready datasets.
 
 ---
 
-# Project Status
+## Project Goals
 
-🚧 **Work In Progress**
-
-This project is actively being developed while I learn more about building scalable data pipelines.
-
-Progress will be tracked below as features and stages of the pipeline are completed.
+* Ingest data from an external API
+* Work with deeply nested JSON data
+* Transform and clean raw data using PySpark
+* Design structured datasets for analytics
+* Implement Medallion Architecture
+* Organize and version control a data project using GitHub
 
 ---
 
-# Data Source
+## Data Source
 
 Data is pulled from the **Raider.IO API**, which provides detailed statistics about Mythic+ dungeon runs.
 
-The API returns **deeply nested JSON data**, which makes it ideal for practicing:
+This API returns **deeply nested JSON**, making it ideal for practicing:
 
-- JSON parsing
-- Data normalization
-- Flattening nested structures
-- Building structured datasets from raw API responses
+* JSON parsing
+* Data normalization
+* Flattening nested structures
 
-The pipeline currently collects runs for the following characters:
+The pipeline currently collects data for:
 
-- Drayfu  
-- Drayth  
-- Draythos  
+* Drayfu
+* Drayth
+* Draythos
 
 ---
 
-# Architecture
+## Architecture
 
 This project follows the **Medallion Architecture pattern**, commonly used in modern data platforms.
 
-Data moves through multiple layers where it becomes progressively cleaner and more structured.
+### Bronze Layer — Raw Data
+
+The Bronze layer stores **raw API responses** with no transformations.
+
+**Purpose:**
+
+* Preserve original source data
+* Enable reprocessing if logic changes
+* Maintain a single source of truth
+
+**What it does:**
+
+* Reads JSON files from Databricks volume storage
+* Writes raw data into a Delta table
 
 ---
 
-## Bronze Layer — Raw Data
+### Silver Layer — Cleaned & Structured
 
-The Bronze layer stores **raw API response data** with minimal modification.
+The Silver layer transforms raw JSON into structured datasets.
 
-Purpose:
+**Transformations include:**
 
-- Preserve the original source data
-- Allow reprocessing if transformations change
-- Capture ingestion data exactly as received from the API
+* Flattening nested JSON structures
+* Exploding arrays (players, encounters)
+* Cleaning character names
+* Standardizing role values (Tank, Healer, DPS)
+* Converting timestamps to proper formats
+* Normalizing season names
 
-Example data includes:
+**Output tables:**
 
-- Dungeon run metadata
-- Player roster information
-- Keystone level
-- Dungeon affixes
-- Completion timestamps
-
-### Progress
-
-- [x] Raider.IO API ingestion script
-- [x] JSON run data collection
-- [x] Bronze data ingestion into Databricks
+* `dungeons`
+* `players`
+* `boss_encounters`
 
 ---
 
-## Silver Layer — Cleaned & Structured
+### Gold Layer — Analytics Ready
 
-The Silver layer focuses on **cleaning and transforming raw JSON data into structured datasets**.
+The Gold layer organizes data into **fact and dimension tables** for analysis.
 
-Transformations include:
+**Fact Tables:**
 
-- Flattening nested JSON structures
-- Extracting player information
-- Separating dungeon run metadata
-- Cleaning inconsistent values
-- Preparing normalized datasets
+* `fact_mythic_runs` → One row per player per run
+* `fact_boss_encounters` → One row per boss encounter
 
-### Progress
+**Dimension Tables:**
 
-- [x] Initial Silver transformation notebook
-- [ ] Player dataset transformation
-- [ ] Dungeon run dataset
-- [ ] Additional data cleaning
+* `dim_characters`
+* `dim_dungeons`
+* `dim_bosses`
+
+These tables are designed to support performance analysis and reporting.
 
 ---
 
-## Gold Layer — Analytics
-
-The Gold layer will contain **analytics-ready datasets designed for reporting and insights**.
-
-These tables will be optimized for answering questions about Mythic+ performance.
-
-Planned datasets include:
-
-- Player performance metrics
-- Dungeon completion statistics
-- Seasonal performance comparisons
-- Character progression tracking
-
-### Progress
-
-- [ ] Gold transformation layer
-- [ ] Aggregated player performance table
-- [ ] Dungeon performance analysis
-- [ ] Visualization-ready datasets
-
----
-
-# Repository Structure
+## Repository Structure
 
 ```
-wow-mythic-data-pipeline
+wow-mythic-data-pipeline/
 │
 ├── ingestion/
-│   └── Python scripts used to pull data from the Raider.IO API
-│
-├── data/
-│   └── Raw JSON files retrieved from the API
+│   └── raiderio_api_ingest.py
 │
 ├── bronze/
-│   └── Initial ingestion and raw storage of data
+│   └── bronze_layer_ingestion.py
 │
 ├── silver/
-│   └── Data cleaning and transformation notebooks
+│   └── silver_layer_transformation.py
 │
 ├── gold/
-│   └── (planned) Analytics-ready datasets and aggregations
+│   └── gold_layer_modeling.py
 │
-├── mplus_datapipeline_logo.PNG
+├── data/
+│   └── sample_json/
 │
-├── .gitignore
+├── docs/
+│   └── (screenshots, diagrams)
 │
-└── README.md
+├── README.md
+└── .gitignore
 ```
 
 ---
 
-# Learning Goals
+## Example Data Flow
 
-This project exists primarily to **learn how real-world data pipelines work**.
+1. **Ingestion**
 
-Key areas being explored:
+   * Pull Mythic+ run data from Raider.IO API
+   * Store raw JSON files
 
-- Working with API-based data sources
-- Processing nested JSON datasets
-- Data transformation using PySpark
-- Medallion architecture design
-- Organizing projects using Git
-- Structuring datasets for analytics
+2. **Bronze**
+
+   * Load JSON into Delta table with no changes
+
+3. **Silver**
+
+   * Flatten nested data
+   * Extract players, dungeons, encounters
+   * Clean and standardize fields
+
+4. **Gold**
+
+   * Join datasets
+   * Create fact and dimension tables
+   * Prepare for analytics and reporting
 
 ---
 
-# Author
+## Current Status
 
-Amanda Berry  
-Systems Analyst learning Data Engineering
+This project currently includes a **working first-pass Medallion pipeline**:
 
- Potential Power BI or Tableau dashboards
+### Completed
 
-Author
+* API ingestion from Raider.IO
+* Bronze layer raw data storage
+* Silver layer transformations (players, dungeons, encounters)
+* Gold layer fact and dimension modeling
+
+### In Progress
+
+* Refactoring notebooks into cleaner production-style scripts
+* Improving documentation and repo organization
+* Adding data quality checks
+* Building analytics use cases
+
+---
+
+## Next Steps
+
+Planned improvements:
+
+* Add data quality validation checks
+* Build character performance analytics
+* Create a “best runs” dataset per character
+* Add Power BI or Tableau dashboards
+* Improve pipeline automation
+
+---
+
+## Technologies Used
+
+* Databricks
+* PySpark
+* Delta Lake
+* Python
+* Git / GitHub
+
+---
+
+## Author
 
 Amanda Berry
-Systems Analyst learning Data Engineering
+Systems Analyst → Data Engineering
