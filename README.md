@@ -10,6 +10,17 @@ The pipeline ingests **World of Warcraft Mythic+ dungeon data** from the Raider.
 
 The goal of this project is to demonstrate the **full lifecycle of a modern data pipeline**, including ingestion, transformation, modeling, and analytics preparation.
 
+## Example Visualization 
+<img src="comparison_visualization.png" alt="Mythic+ Seasonal Key Comparison" width="800"/>
+
+This visualization highlights how Mythic+ difficulty scaling changed across expansions.
+
+To allow fair comparisons:
+- Older seasons (Battle for Azeroth Season 4, Dragonflight Season 1) use original key levels
+- Newer seasons (The War Within Season 1) are adjusted by +10 levels
+
+This allows direct comparison of player performance across different game systems.
+
 ---
 
 ## Project Goals
